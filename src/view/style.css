@@ -333,3 +333,5 @@ details[open] {
 video{max-width:100%;width:min(100%,720px);max-height:420px;background:var(--page)}.playback{margin:20px 0}.chapter-list{padding-left:24px}.chapter-list li{padding:6px 0}.parallel{grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr))}
 
 .task-map{display:block;width:100%;max-height:560px;color:var(--ink);margin-bottom:24px}.task-map path{fill:none;stroke:currentColor;stroke-width:1}.task-map rect{fill:var(--surface);stroke:currentColor;stroke-width:.5px}.task-map text{fill:currentColor;font-size:14px}
+
+.task-map marker path{fill:currentColor;stroke:none}

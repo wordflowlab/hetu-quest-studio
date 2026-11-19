@@ -128,6 +128,9 @@ test("真实Electron审阅、专业操作、导出、冲突保留与关闭重开
       await expect(button).toHaveAttribute("aria-current","page");
     };
     await professionalJourney({c,page,tab,record,exports,app});
+    await tab(2);
+    const map=page.getByRole('img',{name:'任务阶段与转移图'});await expect(map).toBeVisible();
+    const marker=await map.locator('marker path').evaluate((e:SVGPathElement)=>getComputedStyle(e).fill);expect(marker).not.toBe('none');
     const normalDisplay = await app.context().newCDPSession(page);
     await normalDisplay.send("Emulation.setEmulatedMedia",{features:[{name:"prefers-reduced-transparency",value:"no-preference"},{name:"prefers-contrast",value:"no-preference"}]});
     for (const theme of ["light", "dark"] as const) {
