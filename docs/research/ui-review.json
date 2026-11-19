@@ -1,0 +1,168 @@
+{
+  "recorded_at": "2026-11-19",
+  "basis": "人工查看31幅实际Electron浅暗宽窄工作面及重点原尺寸图，并核对正式行为与计算尺寸回执。评分是设计判断，不是像素认证。",
+  "host_version": "hetu 0.12.6",
+  "package_sha256": "c9392b643db2fbd9477d09a35cde6d5c09dc009fd8392e77f6fa28ebdaaa0f2e",
+  "dimensions": [
+    {
+      "dimension": "布局",
+      "score": 9,
+      "basis": "五页在1360／760分别可读，独立工作面保留单一返回入口；正文与侧栏窄窗顺排，无横向溢出。"
+    },
+    {
+      "dimension": "间距与对齐",
+      "score": 9,
+      "basis": "实际页头58.09px；正文起始均低于340px，标题、导航与操作基线一致。"
+    },
+    {
+      "dimension": "排版",
+      "score": 9,
+      "basis": "实际字号最多四档，正文纸面与注释明确区分，部门与调用、铺垫与回扣、计算与解释、条件与轨迹各有位置。"
+    },
+    {
+      "dimension": "颜色与材质",
+      "score": 9,
+      "basis": "逐页浅暗工作面可读，玉色与纸色渐变连续，阅读面稳定；减少透明度回到实色。"
+    },
+    {
+      "dimension": "控件与状态",
+      "score": 9,
+      "basis": "选择、固定意见、过期提示和导出动作含义明确；键盘焦点及取消行为实际断言。"
+    },
+    {
+      "dimension": "交互",
+      "score": 9,
+      "basis": "实际专业操作与固定快照、精确计算和轨迹、专业交付、局部意见、返工重新固定、CAS输入保留、明确新基线与关闭恢复在干净macOS正式制品通过。"
+    }
+  ],
+  "actual_surfaces": [
+    {
+      "path": "research/evidence/work-surfaces/dark-1360-view-0.png",
+      "sha256": "8a5067894ddcebdc84427904d152582304658e57b4f88623f37957252d28d92e"
+    },
+    {
+      "path": "research/evidence/work-surfaces/dark-1360-view-1.png",
+      "sha256": "760b0dcf69d3279639e820282c1231b9adee27f45de419800f7d25de9a0c34ee"
+    },
+    {
+      "path": "research/evidence/work-surfaces/dark-1360-view-2.png",
+      "sha256": "b162d8e347fac188882211c7b3a6f37e13e72eb27cfba8abd2a47e92f737374a"
+    },
+    {
+      "path": "research/evidence/work-surfaces/dark-1360-view-3.png",
+      "sha256": "077e94e9a0819a522b75c14b3616086818d2bb12e263bf5c9f315b062da670fd"
+    },
+    {
+      "path": "research/evidence/work-surfaces/dark-1360-view-4.png",
+      "sha256": "fa174d81439ce28519a623e9aeda8913006389f4eb309574483d8e598e458765"
+    },
+    {
+      "path": "research/evidence/work-surfaces/dark-1360.png",
+      "sha256": "5671b6332af0383b9b4ed968d66c89c74329e8905c044cf42a71e614631b1d89"
+    },
+    {
+      "path": "research/evidence/work-surfaces/dark-760-view-0.png",
+      "sha256": "e3105c9e0dcbfce7bd728dd0a0852ef26e6e7579c5942496d723e56687e8ed4b"
+    },
+    {
+      "path": "research/evidence/work-surfaces/dark-760-view-1.png",
+      "sha256": "a4e38fc6f021ea3ab059c51206fdb0dc4386bb2aa52548575c085a78a37f53a7"
+    },
+    {
+      "path": "research/evidence/work-surfaces/dark-760-view-2.png",
+      "sha256": "a56d9fffd20831cd73803e8b74e0dbc90e6b28c106d3d5bf163090f4c660f611"
+    },
+    {
+      "path": "research/evidence/work-surfaces/dark-760-view-3.png",
+      "sha256": "b74e3598165b7a85326461d743535ac123048fa9e1a7d818ecd947a3e8576448"
+    },
+    {
+      "path": "research/evidence/work-surfaces/dark-760-view-4.png",
+      "sha256": "96950bf2eabfadc1736ef57e169fa810a7d54c032b916bf56304d3d656a4692e"
+    },
+    {
+      "path": "research/evidence/work-surfaces/dark-760.png",
+      "sha256": "898b3446ef19328e030d5ce72b9f897f4640f678101ba297bffe8b913426d403"
+    },
+    {
+      "path": "research/evidence/work-surfaces/empty.png",
+      "sha256": "11953e9523e23f094312a597ec869fc83dac6db51eee3bc5981a3bdf4683d23a"
+    },
+    {
+      "path": "research/evidence/work-surfaces/light-1360-view-0.png",
+      "sha256": "1c17d249791d912515b9cd7b23b0bea84c4f899d86e55f157be1acaaf6666ea5"
+    },
+    {
+      "path": "research/evidence/work-surfaces/light-1360-view-1.png",
+      "sha256": "1405fc5df6a9c4ce9e1c6aea7055844923d27d0e9eadcacf327645a96d21b5cb"
+    },
+    {
+      "path": "research/evidence/work-surfaces/light-1360-view-2.png",
+      "sha256": "431108ff5816dcdd2f9a71be2b02f2b0052a3eafdae11301ae44d2bbacc42896"
+    },
+    {
+      "path": "research/evidence/work-surfaces/light-1360-view-3.png",
+      "sha256": "7cab4a3b7b61a1808c48e0ea6f0f884e745311391bc37377e2d7f8cecacf207b"
+    },
+    {
+      "path": "research/evidence/work-surfaces/light-1360-view-4.png",
+      "sha256": "95d1f96a80694ce48852fa85621ebfdfef55e64df9c0d1ddda5496370d4039b1"
+    },
+    {
+      "path": "research/evidence/work-surfaces/light-1360.png",
+      "sha256": "475467174be7afd127ce9987c556cd0e8ac8dd1178d96852450da48f23eeadef"
+    },
+    {
+      "path": "research/evidence/work-surfaces/light-760-view-0.png",
+      "sha256": "94c3af8bc99ffeec78cd9288006dae54ac20fd18535baa50aaf48db12c7a8743"
+    },
+    {
+      "path": "research/evidence/work-surfaces/light-760-view-1.png",
+      "sha256": "605a9b59cc14e7d61bf7ab26b1ea25bc97c0842e525ec59708702313df49ddf1"
+    },
+    {
+      "path": "research/evidence/work-surfaces/light-760-view-2.png",
+      "sha256": "fc5dbf88969b0f61cbd18c1cf98009de9f59977ff003e7b5452bc809f2ef998c"
+    },
+    {
+      "path": "research/evidence/work-surfaces/light-760-view-3.png",
+      "sha256": "1c7897a51fbf314cf80517fa0428bd537c5b46ced004a1ec6b4669d66e2f88fd"
+    },
+    {
+      "path": "research/evidence/work-surfaces/light-760-view-4.png",
+      "sha256": "ef079c4779f421d48433e8049cc49b6ec254cc55672d25c73ec139ca18b8c9a7"
+    },
+    {
+      "path": "research/evidence/work-surfaces/light-760.png",
+      "sha256": "54080c48e240f1fd7c9f5ebf68cfcce1a9e89d435e0bdf4faac5dfd80837fd9c"
+    },
+    {
+      "path": "research/evidence/work-surfaces/reduced-transparency.png",
+      "sha256": "f87ac751ef10b939c573aceabece6c38f2973912934a40fc34e08ec04a8bbbca"
+    },
+    {
+      "path": "research/evidence/work-surfaces/view-0.png",
+      "sha256": "a8f38916203d60ba2292f20be97ecf4d5029368e603871619a0c8db8a8ce2496"
+    },
+    {
+      "path": "research/evidence/work-surfaces/view-1.png",
+      "sha256": "17b353cc6bc4644c27a8960d412815c7abf118638bac3f31a936a7f56e394644"
+    },
+    {
+      "path": "research/evidence/work-surfaces/view-2.png",
+      "sha256": "97251ba0ae16109576a85cedfbb2468c309fcd05cb06622b5deea7819abce598"
+    },
+    {
+      "path": "research/evidence/work-surfaces/view-3.png",
+      "sha256": "556efd7b1e1e1d91fb05ae4aebae2bfcd6cdfe759d75c88177613c88e02871f5"
+    },
+    {
+      "path": "research/evidence/work-surfaces/view-4.png",
+      "sha256": "819fe2a1f5951835238f701c91ac489c4a4efffd0fae3d64d9a3cbd46ff981e3"
+    }
+  ],
+  "limits": [
+    "原生窗口材质、系统输入法与Windows/Linux专业实机未验证",
+    "本机脱口秀退出清理超时保留；最终正式完整旅程以独立macOS运行器通过回执为准"
+  ]
+}
