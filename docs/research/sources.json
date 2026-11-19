@@ -1,0 +1,70 @@
+{
+  "retrieved_on": "2026-11-19",
+  "sources": [
+    {
+      "repository": "https://github.com/YarnSpinnerTool/YarnSpinner",
+      "commit": "721c1d2c8c3ee1b6c56461b8e9e71b3c76cbf7d9",
+      "license": "MIT",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "201c434f3c402127f5e56060f68d5e8fb874ff555951117e87cf29cc2aa01224",
+          "read_lines": [
+            1,
+            54
+          ]
+        },
+        {
+          "path": "LICENSE.md",
+          "sha256": "11ccf106992986cf9ca496c0d9c7038ceba5460678465d29e81f9e41dae491eb",
+          "read_lines": [
+            1,
+            21
+          ]
+        },
+        {
+          "path": "YarnSpinner/VirtualMachine.cs",
+          "sha256": "45215462560848d02b5b531af380c40e990edaa82b6a17c4bff92a5355758a59",
+          "read_lines": [
+            1,
+            65
+          ]
+        }
+      ],
+      "use": "只读研究，未运行上游脚本或复制实现"
+    },
+    {
+      "repository": "https://github.com/inkle/ink",
+      "commit": "4011b8c0a01828c61dd2331613c1038a3a5f294b",
+      "license": "MIT",
+      "files": [
+        {
+          "path": "README.md",
+          "sha256": "d4e1fb8405be61ba17d6aa08a2d7ca719521b0bc18278302a62af4826747d161",
+          "read_lines": [
+            1,
+            65
+          ]
+        },
+        {
+          "path": "LICENSE.txt",
+          "sha256": "8ade0ddc1c3ede9acaf6febf2742400aa0dff808f35b202962fe073a184e8d4a",
+          "read_lines": [
+            1,
+            21
+          ]
+        },
+        {
+          "path": "ink-engine-runtime/Story.cs",
+          "sha256": "10a150e6438360f346bfad4ffd17749bcdc5ae851fd11e4bb957ed27e0604340",
+          "read_lines": [
+            1,
+            65
+          ]
+        }
+      ],
+      "use": "只读研究，未运行上游脚本或复制实现"
+    }
+  ],
+  "adoption": "Yarn Spinner与Ink将条件、状态和叙事分开。本包研究其确定性状态语义，独立实现有界任务模型，不声称Yarn／Ink格式兼容、不复制游戏运行时，也不把纯图可达当状态可达。"
+}

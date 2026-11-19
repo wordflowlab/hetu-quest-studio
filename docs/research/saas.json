@@ -1,0 +1,24 @@
+{
+  "retrieved_on": "2026-11-19",
+  "pages": [
+    {
+      "name": "Articy",
+      "url": "https://www.articy.com/en/",
+      "status": "200",
+      "exit_code": 0,
+      "sha256": "abf6995fa285345eb6b3227dd469a04a150f128bec3effb037cecc49f221eece",
+      "title": "Articy",
+      "scope": "公开页面；未登录、未执行产品业务"
+    },
+    {
+      "name": "Arcweave",
+      "url": "https://arcweave.com/",
+      "status": "200",
+      "exit_code": 0,
+      "sha256": "ce1bc1c6954a2bbcf0d67aa35be06a06b58fa063d30289e04d242718add66ad7",
+      "title": "Arcweave | Branching narrative design software for games, training, and education",
+      "scope": "公开页面；未登录、未执行产品业务"
+    }
+  ],
+  "limits": "可访问页面不等于已体验产品；HTTP失败保留原状态。"
+}
