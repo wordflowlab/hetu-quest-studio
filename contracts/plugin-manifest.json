@@ -1,0 +1,3701 @@
+{
+  "manifest_version": 1,
+  "id": "org.wordflowlab.quest-studio",
+  "version": "0.1.0",
+  "host_api": "1",
+  "display": {
+    "zh-CN": "游戏任务工坊",
+    "en": "Quest Studio"
+  },
+  "description": {
+    "zh-CN": "把任务前提、状态变量、选择代价和固定试玩轨迹变成可检查、可继续创作的任务工程。",
+    "en": "Quest Studio with fixed sources and continuing revisions."
+  },
+  "license": "Apache-2.0",
+  "work_kinds": [
+    "novel",
+    "drama",
+    "video"
+  ],
+  "dependencies": [],
+  "runtime": {
+    "entry": "backend.mjs"
+  },
+  "contributions": {
+    "data": [
+      {
+        "kind": "quest_project",
+        "schema_version": "1.0.0",
+        "schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "format_version": {
+              "const": 1
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 170
+            },
+            "brief": {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 8000
+            },
+            "evidence": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "source_index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 99
+                  },
+                  "byte_start": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 100000000
+                  },
+                  "byte_end": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 100000000
+                  },
+                  "quote": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 16000
+                  },
+                  "attribution": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 2000
+                  }
+                },
+                "required": [
+                  "id",
+                  "source_index",
+                  "byte_start",
+                  "byte_end",
+                  "quote",
+                  "attribution"
+                ]
+              },
+              "maxItems": 200
+            },
+            "variables": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "kind": {
+                    "enum": [
+                      "counter",
+                      "flag"
+                    ]
+                  },
+                  "minimum": {
+                    "type": "integer",
+                    "minimum": -10000,
+                    "maximum": 10000
+                  },
+                  "maximum": {
+                    "type": "integer",
+                    "minimum": -10000,
+                    "maximum": 10000
+                  },
+                  "initial": {
+                    "type": "integer",
+                    "minimum": -10000,
+                    "maximum": 10000
+                  }
+                },
+                "required": [
+                  "id",
+                  "title",
+                  "kind",
+                  "minimum",
+                  "maximum",
+                  "initial"
+                ]
+              },
+              "maxItems": 30
+            },
+            "steps": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "text": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 12000
+                  },
+                  "terminal": {
+                    "type": "boolean"
+                  },
+                  "evidence_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "maxItems": 50
+                  }
+                },
+                "required": [
+                  "id",
+                  "title",
+                  "text",
+                  "terminal",
+                  "evidence_ids"
+                ]
+              },
+              "maxItems": 100
+            },
+            "transitions": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "from_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "to_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "label": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "guards": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "variable_id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 100
+                        },
+                        "operator": {
+                          "enum": [
+                            "eq",
+                            "ne",
+                            "gte",
+                            "lte"
+                          ]
+                        },
+                        "value": {
+                          "type": "integer",
+                          "minimum": -10000,
+                          "maximum": 10000
+                        }
+                      },
+                      "required": [
+                        "variable_id",
+                        "operator",
+                        "value"
+                      ]
+                    },
+                    "maxItems": 30
+                  },
+                  "effects": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "variable_id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 100
+                        },
+                        "operator": {
+                          "enum": [
+                            "set",
+                            "add"
+                          ]
+                        },
+                        "value": {
+                          "type": "integer",
+                          "minimum": -10000,
+                          "maximum": 10000
+                        }
+                      },
+                      "required": [
+                        "variable_id",
+                        "operator",
+                        "value"
+                      ]
+                    },
+                    "maxItems": 30
+                  }
+                },
+                "required": [
+                  "id",
+                  "from_id",
+                  "to_id",
+                  "label",
+                  "guards",
+                  "effects"
+                ]
+              },
+              "maxItems": 200
+            },
+            "routes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "start_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "transition_ids": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "maxItems": 200
+                  },
+                  "basis_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "intent": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 4000
+                  }
+                },
+                "required": [
+                  "id",
+                  "title",
+                  "start_id",
+                  "transition_ids",
+                  "basis_sha256",
+                  "intent"
+                ]
+              },
+              "maxItems": 40
+            },
+            "playthroughs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200
+                  },
+                  "route_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "basis_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "snapshot": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "variables": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "title": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            },
+                            "kind": {
+                              "enum": [
+                                "counter",
+                                "flag"
+                              ]
+                            },
+                            "minimum": {
+                              "type": "integer",
+                              "minimum": -10000,
+                              "maximum": 10000
+                            },
+                            "maximum": {
+                              "type": "integer",
+                              "minimum": -10000,
+                              "maximum": 10000
+                            },
+                            "initial": {
+                              "type": "integer",
+                              "minimum": -10000,
+                              "maximum": 10000
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "title",
+                            "kind",
+                            "minimum",
+                            "maximum",
+                            "initial"
+                          ]
+                        },
+                        "maxItems": 30
+                      },
+                      "steps": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "title": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            },
+                            "text": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 12000
+                            },
+                            "terminal": {
+                              "type": "boolean"
+                            },
+                            "evidence_ids": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 100
+                              },
+                              "maxItems": 50
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "title",
+                            "text",
+                            "terminal",
+                            "evidence_ids"
+                          ]
+                        },
+                        "maxItems": 100
+                      },
+                      "transitions": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "from_id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "to_id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "label": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 200
+                            },
+                            "guards": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "variable_id": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 100
+                                  },
+                                  "operator": {
+                                    "enum": [
+                                      "eq",
+                                      "ne",
+                                      "gte",
+                                      "lte"
+                                    ]
+                                  },
+                                  "value": {
+                                    "type": "integer",
+                                    "minimum": -10000,
+                                    "maximum": 10000
+                                  }
+                                },
+                                "required": [
+                                  "variable_id",
+                                  "operator",
+                                  "value"
+                                ]
+                              },
+                              "maxItems": 30
+                            },
+                            "effects": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "additionalProperties": false,
+                                "properties": {
+                                  "variable_id": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 100
+                                  },
+                                  "operator": {
+                                    "enum": [
+                                      "set",
+                                      "add"
+                                    ]
+                                  },
+                                  "value": {
+                                    "type": "integer",
+                                    "minimum": -10000,
+                                    "maximum": 10000
+                                  }
+                                },
+                                "required": [
+                                  "variable_id",
+                                  "operator",
+                                  "value"
+                                ]
+                              },
+                              "maxItems": 30
+                            }
+                          },
+                          "required": [
+                            "id",
+                            "from_id",
+                            "to_id",
+                            "label",
+                            "guards",
+                            "effects"
+                          ]
+                        },
+                        "maxItems": 200
+                      },
+                      "route": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "title": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "start_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "transition_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "maxItems": 200
+                          },
+                          "basis_sha256": {
+                            "type": "string",
+                            "pattern": "^[a-f0-9]{64}$"
+                          },
+                          "intent": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 4000
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "title",
+                          "start_id",
+                          "transition_ids",
+                          "basis_sha256",
+                          "intent"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "variables",
+                      "steps",
+                      "transitions",
+                      "route"
+                    ]
+                  },
+                  "result": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "status": {
+                        "enum": [
+                          "completed",
+                          "blocked"
+                        ]
+                      },
+                      "step_id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "state": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "integer",
+                          "minimum": -10000,
+                          "maximum": 10000
+                        }
+                      },
+                      "trace": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "transition_id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "from_id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "to_id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "before": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "integer",
+                                "minimum": -10000,
+                                "maximum": 10000
+                              }
+                            },
+                            "after": {
+                              "type": "object",
+                              "additionalProperties": {
+                                "type": "integer",
+                                "minimum": -10000,
+                                "maximum": 10000
+                              }
+                            }
+                          },
+                          "required": [
+                            "transition_id",
+                            "from_id",
+                            "to_id",
+                            "before",
+                            "after"
+                          ]
+                        },
+                        "maxItems": 200
+                      },
+                      "failed_index": {
+                        "anyOf": [
+                          {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 199
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "reason": {
+                        "type": "string",
+                        "minLength": 0,
+                        "maxLength": 4000
+                      }
+                    },
+                    "required": [
+                      "status",
+                      "step_id",
+                      "state",
+                      "trace",
+                      "failed_index",
+                      "reason"
+                    ]
+                  }
+                },
+                "required": [
+                  "id",
+                  "title",
+                  "route_id",
+                  "basis_sha256",
+                  "snapshot",
+                  "result"
+                ]
+              },
+              "maxItems": 20
+            },
+            "notes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "target_kind": {
+                    "enum": [
+                      "step",
+                      "transition",
+                      "route"
+                    ]
+                  },
+                  "target_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "target_sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "origin": {
+                    "enum": [
+                      "author",
+                      "agent"
+                    ]
+                  },
+                  "comment": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 8000
+                  },
+                  "status": {
+                    "enum": [
+                      "open",
+                      "resolved"
+                    ]
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "minLength": 0,
+                    "maxLength": 4000
+                  }
+                },
+                "required": [
+                  "id",
+                  "target_kind",
+                  "target_id",
+                  "target_sha256",
+                  "origin",
+                  "comment",
+                  "status",
+                  "resolution"
+                ]
+              },
+              "maxItems": 300
+            },
+            "basis_refs": {
+              "type": "array",
+              "maxItems": 100,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "owner_plugin_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "object_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "required": [
+                  "owner_plugin_id",
+                  "object_id",
+                  "revision",
+                  "sha256"
+                ]
+              }
+            }
+          },
+          "required": [
+            "format_version",
+            "title",
+            "brief",
+            "evidence",
+            "variables",
+            "steps",
+            "transitions",
+            "routes",
+            "playthroughs",
+            "notes",
+            "basis_refs"
+          ]
+        }
+      }
+    ],
+    "views": [
+      {
+        "id": "quest-studio",
+        "title": "游戏任务工坊",
+        "entry": "index.html",
+        "navigation": "integrated",
+        "object_kinds": [
+          "documentary_project"
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "list_projects",
+        "title": "查找专业工程",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "limit": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            },
+            "cursor": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 4000
+            },
+            "query": {
+              "type": "string",
+              "minLength": 0,
+              "maxLength": 1000
+            }
+          },
+          "required": []
+        }
+      },
+      {
+        "id": "get_project",
+        "title": "读取固定专业工程",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            }
+          },
+          "required": [
+            "object_id"
+          ]
+        }
+      },
+      {
+        "id": "save_project",
+        "title": "保存完整专业工程",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^([a-f0-9]{64})?$"
+            },
+            "operation_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "content": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "format_version": {
+                  "const": 1
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 170
+                },
+                "brief": {
+                  "type": "string",
+                  "minLength": 0,
+                  "maxLength": 8000
+                },
+                "evidence": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "source_index": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 99
+                      },
+                      "byte_start": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "maximum": 100000000
+                      },
+                      "byte_end": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 100000000
+                      },
+                      "quote": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 16000
+                      },
+                      "attribution": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 2000
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "source_index",
+                      "byte_start",
+                      "byte_end",
+                      "quote",
+                      "attribution"
+                    ]
+                  },
+                  "maxItems": 200
+                },
+                "variables": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "kind": {
+                        "enum": [
+                          "counter",
+                          "flag"
+                        ]
+                      },
+                      "minimum": {
+                        "type": "integer",
+                        "minimum": -10000,
+                        "maximum": 10000
+                      },
+                      "maximum": {
+                        "type": "integer",
+                        "minimum": -10000,
+                        "maximum": 10000
+                      },
+                      "initial": {
+                        "type": "integer",
+                        "minimum": -10000,
+                        "maximum": 10000
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "title",
+                      "kind",
+                      "minimum",
+                      "maximum",
+                      "initial"
+                    ]
+                  },
+                  "maxItems": 30
+                },
+                "steps": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "text": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 12000
+                      },
+                      "terminal": {
+                        "type": "boolean"
+                      },
+                      "evidence_ids": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 100
+                        },
+                        "maxItems": 50
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "title",
+                      "text",
+                      "terminal",
+                      "evidence_ids"
+                    ]
+                  },
+                  "maxItems": 100
+                },
+                "transitions": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "from_id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "to_id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "label": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "guards": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "variable_id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "operator": {
+                              "enum": [
+                                "eq",
+                                "ne",
+                                "gte",
+                                "lte"
+                              ]
+                            },
+                            "value": {
+                              "type": "integer",
+                              "minimum": -10000,
+                              "maximum": 10000
+                            }
+                          },
+                          "required": [
+                            "variable_id",
+                            "operator",
+                            "value"
+                          ]
+                        },
+                        "maxItems": 30
+                      },
+                      "effects": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "variable_id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "operator": {
+                              "enum": [
+                                "set",
+                                "add"
+                              ]
+                            },
+                            "value": {
+                              "type": "integer",
+                              "minimum": -10000,
+                              "maximum": 10000
+                            }
+                          },
+                          "required": [
+                            "variable_id",
+                            "operator",
+                            "value"
+                          ]
+                        },
+                        "maxItems": 30
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "from_id",
+                      "to_id",
+                      "label",
+                      "guards",
+                      "effects"
+                    ]
+                  },
+                  "maxItems": 200
+                },
+                "routes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "start_id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "transition_ids": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 100
+                        },
+                        "maxItems": 200
+                      },
+                      "basis_sha256": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      "intent": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 4000
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "title",
+                      "start_id",
+                      "transition_ids",
+                      "basis_sha256",
+                      "intent"
+                    ]
+                  },
+                  "maxItems": 40
+                },
+                "playthroughs": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200
+                      },
+                      "route_id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "basis_sha256": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      "snapshot": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "variables": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 100
+                                },
+                                "title": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 200
+                                },
+                                "kind": {
+                                  "enum": [
+                                    "counter",
+                                    "flag"
+                                  ]
+                                },
+                                "minimum": {
+                                  "type": "integer",
+                                  "minimum": -10000,
+                                  "maximum": 10000
+                                },
+                                "maximum": {
+                                  "type": "integer",
+                                  "minimum": -10000,
+                                  "maximum": 10000
+                                },
+                                "initial": {
+                                  "type": "integer",
+                                  "minimum": -10000,
+                                  "maximum": 10000
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "title",
+                                "kind",
+                                "minimum",
+                                "maximum",
+                                "initial"
+                              ]
+                            },
+                            "maxItems": 30
+                          },
+                          "steps": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 100
+                                },
+                                "title": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 200
+                                },
+                                "text": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 12000
+                                },
+                                "terminal": {
+                                  "type": "boolean"
+                                },
+                                "evidence_ids": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 100
+                                  },
+                                  "maxItems": 50
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "title",
+                                "text",
+                                "terminal",
+                                "evidence_ids"
+                              ]
+                            },
+                            "maxItems": 100
+                          },
+                          "transitions": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "id": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 100
+                                },
+                                "from_id": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 100
+                                },
+                                "to_id": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 100
+                                },
+                                "label": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 200
+                                },
+                                "guards": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "variable_id": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 100
+                                      },
+                                      "operator": {
+                                        "enum": [
+                                          "eq",
+                                          "ne",
+                                          "gte",
+                                          "lte"
+                                        ]
+                                      },
+                                      "value": {
+                                        "type": "integer",
+                                        "minimum": -10000,
+                                        "maximum": 10000
+                                      }
+                                    },
+                                    "required": [
+                                      "variable_id",
+                                      "operator",
+                                      "value"
+                                    ]
+                                  },
+                                  "maxItems": 30
+                                },
+                                "effects": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "object",
+                                    "additionalProperties": false,
+                                    "properties": {
+                                      "variable_id": {
+                                        "type": "string",
+                                        "minLength": 1,
+                                        "maxLength": 100
+                                      },
+                                      "operator": {
+                                        "enum": [
+                                          "set",
+                                          "add"
+                                        ]
+                                      },
+                                      "value": {
+                                        "type": "integer",
+                                        "minimum": -10000,
+                                        "maximum": 10000
+                                      }
+                                    },
+                                    "required": [
+                                      "variable_id",
+                                      "operator",
+                                      "value"
+                                    ]
+                                  },
+                                  "maxItems": 30
+                                }
+                              },
+                              "required": [
+                                "id",
+                                "from_id",
+                                "to_id",
+                                "label",
+                                "guards",
+                                "effects"
+                              ]
+                            },
+                            "maxItems": 200
+                          },
+                          "route": {
+                            "type": "object",
+                            "additionalProperties": false,
+                            "properties": {
+                              "id": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 100
+                              },
+                              "title": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 200
+                              },
+                              "start_id": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 100
+                              },
+                              "transition_ids": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 100
+                                },
+                                "maxItems": 200
+                              },
+                              "basis_sha256": {
+                                "type": "string",
+                                "pattern": "^[a-f0-9]{64}$"
+                              },
+                              "intent": {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 4000
+                              }
+                            },
+                            "required": [
+                              "id",
+                              "title",
+                              "start_id",
+                              "transition_ids",
+                              "basis_sha256",
+                              "intent"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "variables",
+                          "steps",
+                          "transitions",
+                          "route"
+                        ]
+                      },
+                      "result": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "status": {
+                            "enum": [
+                              "completed",
+                              "blocked"
+                            ]
+                          },
+                          "step_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "state": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "integer",
+                              "minimum": -10000,
+                              "maximum": 10000
+                            }
+                          },
+                          "trace": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "transition_id": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 100
+                                },
+                                "from_id": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 100
+                                },
+                                "to_id": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 100
+                                },
+                                "before": {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "integer",
+                                    "minimum": -10000,
+                                    "maximum": 10000
+                                  }
+                                },
+                                "after": {
+                                  "type": "object",
+                                  "additionalProperties": {
+                                    "type": "integer",
+                                    "minimum": -10000,
+                                    "maximum": 10000
+                                  }
+                                }
+                              },
+                              "required": [
+                                "transition_id",
+                                "from_id",
+                                "to_id",
+                                "before",
+                                "after"
+                              ]
+                            },
+                            "maxItems": 200
+                          },
+                          "failed_index": {
+                            "anyOf": [
+                              {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 199
+                              },
+                              {
+                                "type": "null"
+                              }
+                            ]
+                          },
+                          "reason": {
+                            "type": "string",
+                            "minLength": 0,
+                            "maxLength": 4000
+                          }
+                        },
+                        "required": [
+                          "status",
+                          "step_id",
+                          "state",
+                          "trace",
+                          "failed_index",
+                          "reason"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "title",
+                      "route_id",
+                      "basis_sha256",
+                      "snapshot",
+                      "result"
+                    ]
+                  },
+                  "maxItems": 20
+                },
+                "notes": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "target_kind": {
+                        "enum": [
+                          "step",
+                          "transition",
+                          "route"
+                        ]
+                      },
+                      "target_id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "target_sha256": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      },
+                      "origin": {
+                        "enum": [
+                          "author",
+                          "agent"
+                        ]
+                      },
+                      "comment": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 8000
+                      },
+                      "status": {
+                        "enum": [
+                          "open",
+                          "resolved"
+                        ]
+                      },
+                      "resolution": {
+                        "type": "string",
+                        "minLength": 0,
+                        "maxLength": 4000
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "target_kind",
+                      "target_id",
+                      "target_sha256",
+                      "origin",
+                      "comment",
+                      "status",
+                      "resolution"
+                    ]
+                  },
+                  "maxItems": 300
+                },
+                "basis_refs": {
+                  "type": "array",
+                  "maxItems": 100,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "owner_plugin_id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "object_id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "revision": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 1000000
+                      },
+                      "sha256": {
+                        "type": "string",
+                        "pattern": "^[a-f0-9]{64}$"
+                      }
+                    },
+                    "required": [
+                      "owner_plugin_id",
+                      "object_id",
+                      "revision",
+                      "sha256"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "format_version",
+                "title",
+                "brief",
+                "evidence",
+                "variables",
+                "steps",
+                "transitions",
+                "routes",
+                "playthroughs",
+                "notes",
+                "basis_refs"
+              ]
+            },
+            "source_refs": {
+              "type": "array",
+              "maxItems": 100,
+              "items": {
+                "type": "object"
+              }
+            }
+          },
+          "required": [
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "content"
+          ]
+        }
+      },
+      {
+        "id": "get_source",
+        "title": "分块读取固定来源",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "source_index": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 99
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 100000000
+            },
+            "max_bytes": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 48000
+            }
+          },
+          "required": [
+            "object_id",
+            "source_index"
+          ]
+        }
+      },
+      {
+        "id": "get_basis",
+        "title": "读取固定专业依据",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "basis_index": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 99
+            }
+          },
+          "required": [
+            "object_id",
+            "basis_index"
+          ]
+        }
+      },
+      {
+        "id": "compare_versions",
+        "title": "比较固定专业修订",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "from_revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "to_revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            }
+          },
+          "required": [
+            "object_id",
+            "from_revision",
+            "to_revision"
+          ]
+        }
+      },
+      {
+        "id": "export_project",
+        "title": "分块导出完整专业数据",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "format": {
+              "enum": [
+                "json",
+                "markdown",
+                "html"
+              ]
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 32000000
+            },
+            "max_bytes": {
+              "type": "integer",
+              "minimum": 256,
+              "maximum": 48000
+            }
+          },
+          "required": [
+            "object_id",
+            "format"
+          ]
+        }
+      },
+      {
+        "id": "build_context",
+        "title": "准备有界创作上下文",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "goal": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            },
+            "max_chars": {
+              "type": "integer",
+              "minimum": 256,
+              "maximum": 32000
+            }
+          },
+          "required": [
+            "object_id",
+            "goal",
+            "max_chars"
+          ]
+        }
+      },
+      {
+        "id": "create_handoff",
+        "title": "准备本工程AI接续",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "goal": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 8000
+            }
+          },
+          "required": [
+            "object_id",
+            "goal"
+          ]
+        }
+      },
+      {
+        "id": "get_operation",
+        "title": "回读原操作",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "operation_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            }
+          },
+          "required": [
+            "operation_key"
+          ]
+        }
+      },
+      {
+        "id": "put_evidence",
+        "title": "维护固定引文",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^([a-f0-9]{64})?$"
+            },
+            "operation_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "evidence": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "source_index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 99
+                },
+                "byte_start": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 100000000
+                },
+                "byte_end": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 100000000
+                },
+                "quote": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 16000
+                },
+                "attribution": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2000
+                }
+              },
+              "required": [
+                "id",
+                "source_index",
+                "byte_start",
+                "byte_end",
+                "quote",
+                "attribution"
+              ]
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "evidence"
+          ]
+        }
+      },
+      {
+        "id": "put_variable",
+        "title": "维护有界状态",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^([a-f0-9]{64})?$"
+            },
+            "operation_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "variable": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "kind": {
+                  "enum": [
+                    "counter",
+                    "flag"
+                  ]
+                },
+                "minimum": {
+                  "type": "integer",
+                  "minimum": -10000,
+                  "maximum": 10000
+                },
+                "maximum": {
+                  "type": "integer",
+                  "minimum": -10000,
+                  "maximum": 10000
+                },
+                "initial": {
+                  "type": "integer",
+                  "minimum": -10000,
+                  "maximum": 10000
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "kind",
+                "minimum",
+                "maximum",
+                "initial"
+              ]
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "variable"
+          ]
+        }
+      },
+      {
+        "id": "remove_variable",
+        "title": "移除有界状态",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^([a-f0-9]{64})?$"
+            },
+            "operation_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "variable_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "variable_id"
+          ]
+        }
+      },
+      {
+        "id": "put_step",
+        "title": "维护任务阶段",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^([a-f0-9]{64})?$"
+            },
+            "operation_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "step": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "text": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 12000
+                },
+                "terminal": {
+                  "type": "boolean"
+                },
+                "evidence_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "maxItems": 50
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "text",
+                "terminal",
+                "evidence_ids"
+              ]
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "step"
+          ]
+        }
+      },
+      {
+        "id": "remove_step",
+        "title": "移除任务阶段",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^([a-f0-9]{64})?$"
+            },
+            "operation_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "step_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "step_id"
+          ]
+        }
+      },
+      {
+        "id": "put_transition",
+        "title": "维护条件转移",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^([a-f0-9]{64})?$"
+            },
+            "operation_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "transition": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "from_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "to_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "label": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "guards": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "variable_id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "operator": {
+                        "enum": [
+                          "eq",
+                          "ne",
+                          "gte",
+                          "lte"
+                        ]
+                      },
+                      "value": {
+                        "type": "integer",
+                        "minimum": -10000,
+                        "maximum": 10000
+                      }
+                    },
+                    "required": [
+                      "variable_id",
+                      "operator",
+                      "value"
+                    ]
+                  },
+                  "maxItems": 30
+                },
+                "effects": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "variable_id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "operator": {
+                        "enum": [
+                          "set",
+                          "add"
+                        ]
+                      },
+                      "value": {
+                        "type": "integer",
+                        "minimum": -10000,
+                        "maximum": 10000
+                      }
+                    },
+                    "required": [
+                      "variable_id",
+                      "operator",
+                      "value"
+                    ]
+                  },
+                  "maxItems": 30
+                }
+              },
+              "required": [
+                "id",
+                "from_id",
+                "to_id",
+                "label",
+                "guards",
+                "effects"
+              ]
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "transition"
+          ]
+        }
+      },
+      {
+        "id": "remove_transition",
+        "title": "移除条件转移",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^([a-f0-9]{64})?$"
+            },
+            "operation_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "transition_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "transition_id"
+          ]
+        }
+      },
+      {
+        "id": "put_route",
+        "title": "维护固定路线",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^([a-f0-9]{64})?$"
+            },
+            "operation_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "route": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "start_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "transition_ids": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "maxItems": 200
+                },
+                "basis_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "intent": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 4000
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "start_id",
+                "transition_ids",
+                "basis_sha256",
+                "intent"
+              ]
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "route"
+          ]
+        }
+      },
+      {
+        "id": "remove_route",
+        "title": "移除固定路线",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^([a-f0-9]{64})?$"
+            },
+            "operation_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "route_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "route_id"
+          ]
+        }
+      },
+      {
+        "id": "put_playthrough",
+        "title": "维护固定试玩",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^([a-f0-9]{64})?$"
+            },
+            "operation_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "playthrough": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200
+                },
+                "route_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "basis_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "snapshot": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "variables": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "title": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "kind": {
+                            "enum": [
+                              "counter",
+                              "flag"
+                            ]
+                          },
+                          "minimum": {
+                            "type": "integer",
+                            "minimum": -10000,
+                            "maximum": 10000
+                          },
+                          "maximum": {
+                            "type": "integer",
+                            "minimum": -10000,
+                            "maximum": 10000
+                          },
+                          "initial": {
+                            "type": "integer",
+                            "minimum": -10000,
+                            "maximum": 10000
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "title",
+                          "kind",
+                          "minimum",
+                          "maximum",
+                          "initial"
+                        ]
+                      },
+                      "maxItems": 30
+                    },
+                    "steps": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "title": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "text": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 12000
+                          },
+                          "terminal": {
+                            "type": "boolean"
+                          },
+                          "evidence_ids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "maxItems": 50
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "title",
+                          "text",
+                          "terminal",
+                          "evidence_ids"
+                        ]
+                      },
+                      "maxItems": 100
+                    },
+                    "transitions": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "from_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "to_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "label": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          },
+                          "guards": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "variable_id": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 100
+                                },
+                                "operator": {
+                                  "enum": [
+                                    "eq",
+                                    "ne",
+                                    "gte",
+                                    "lte"
+                                  ]
+                                },
+                                "value": {
+                                  "type": "integer",
+                                  "minimum": -10000,
+                                  "maximum": 10000
+                                }
+                              },
+                              "required": [
+                                "variable_id",
+                                "operator",
+                                "value"
+                              ]
+                            },
+                            "maxItems": 30
+                          },
+                          "effects": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "variable_id": {
+                                  "type": "string",
+                                  "minLength": 1,
+                                  "maxLength": 100
+                                },
+                                "operator": {
+                                  "enum": [
+                                    "set",
+                                    "add"
+                                  ]
+                                },
+                                "value": {
+                                  "type": "integer",
+                                  "minimum": -10000,
+                                  "maximum": 10000
+                                }
+                              },
+                              "required": [
+                                "variable_id",
+                                "operator",
+                                "value"
+                              ]
+                            },
+                            "maxItems": 30
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "from_id",
+                          "to_id",
+                          "label",
+                          "guards",
+                          "effects"
+                        ]
+                      },
+                      "maxItems": 200
+                    },
+                    "route": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 100
+                        },
+                        "title": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        },
+                        "start_id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 100
+                        },
+                        "transition_ids": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "maxItems": 200
+                        },
+                        "basis_sha256": {
+                          "type": "string",
+                          "pattern": "^[a-f0-9]{64}$"
+                        },
+                        "intent": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 4000
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "title",
+                        "start_id",
+                        "transition_ids",
+                        "basis_sha256",
+                        "intent"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "variables",
+                    "steps",
+                    "transitions",
+                    "route"
+                  ]
+                },
+                "result": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "status": {
+                      "enum": [
+                        "completed",
+                        "blocked"
+                      ]
+                    },
+                    "step_id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "state": {
+                      "type": "object",
+                      "additionalProperties": {
+                        "type": "integer",
+                        "minimum": -10000,
+                        "maximum": 10000
+                      }
+                    },
+                    "trace": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "transition_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "from_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "to_id": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          },
+                          "before": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "integer",
+                              "minimum": -10000,
+                              "maximum": 10000
+                            }
+                          },
+                          "after": {
+                            "type": "object",
+                            "additionalProperties": {
+                              "type": "integer",
+                              "minimum": -10000,
+                              "maximum": 10000
+                            }
+                          }
+                        },
+                        "required": [
+                          "transition_id",
+                          "from_id",
+                          "to_id",
+                          "before",
+                          "after"
+                        ]
+                      },
+                      "maxItems": 200
+                    },
+                    "failed_index": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 199
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "reason": {
+                      "type": "string",
+                      "minLength": 0,
+                      "maxLength": 4000
+                    }
+                  },
+                  "required": [
+                    "status",
+                    "step_id",
+                    "state",
+                    "trace",
+                    "failed_index",
+                    "reason"
+                  ]
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "route_id",
+                "basis_sha256",
+                "snapshot",
+                "result"
+              ]
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "playthrough"
+          ]
+        }
+      },
+      {
+        "id": "put_note",
+        "title": "维护固定意见",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^([a-f0-9]{64})?$"
+            },
+            "operation_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "note": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "target_kind": {
+                  "enum": [
+                    "step",
+                    "transition",
+                    "route"
+                  ]
+                },
+                "target_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "target_sha256": {
+                  "type": "string",
+                  "pattern": "^[a-f0-9]{64}$"
+                },
+                "origin": {
+                  "enum": [
+                    "author",
+                    "agent"
+                  ]
+                },
+                "comment": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 8000
+                },
+                "status": {
+                  "enum": [
+                    "open",
+                    "resolved"
+                  ]
+                },
+                "resolution": {
+                  "type": "string",
+                  "minLength": 0,
+                  "maxLength": 4000
+                }
+              },
+              "required": [
+                "id",
+                "target_kind",
+                "target_id",
+                "target_sha256",
+                "origin",
+                "comment",
+                "status",
+                "resolution"
+              ]
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "note"
+          ]
+        }
+      },
+      {
+        "id": "remove_note",
+        "title": "移除固定意见",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^([a-f0-9]{64})?$"
+            },
+            "operation_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "note_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "note_id"
+          ]
+        }
+      },
+      {
+        "id": "target_digest",
+        "title": "读取目标固定摘要",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "target_kind": {
+              "enum": [
+                "step",
+                "transition",
+                "route"
+              ]
+            },
+            "target_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          },
+          "required": [
+            "object_id",
+            "target_kind",
+            "target_id"
+          ]
+        }
+      },
+      {
+        "id": "check_quest",
+        "title": "检查专业关系与过期依据",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            }
+          },
+          "required": [
+            "object_id"
+          ]
+        }
+      },
+      {
+        "id": "route_basis",
+        "title": "核对当前任务图依据",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            }
+          },
+          "required": [
+            "object_id"
+          ]
+        }
+      },
+      {
+        "id": "simulate_route",
+        "title": "确定性执行固定路线",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "route_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          },
+          "required": [
+            "object_id",
+            "route_id"
+          ]
+        }
+      },
+      {
+        "id": "analyze_reachability",
+        "title": "有界状态空间探索",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "start_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "max_states": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000
+            }
+          },
+          "required": [
+            "object_id",
+            "start_id",
+            "max_states"
+          ]
+        }
+      },
+      {
+        "id": "playthrough_view",
+        "title": "回读固定试玩快照",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "playthrough_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          },
+          "required": [
+            "object_id",
+            "playthrough_id"
+          ]
+        }
+      },
+      {
+        "id": "export_graph",
+        "title": "导出可读任务状态图",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            }
+          },
+          "required": [
+            "object_id"
+          ]
+        }
+      },
+      {
+        "id": "record_playthrough",
+        "title": "固定完整试玩轨迹",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^([a-f0-9]{64})?$"
+            },
+            "operation_key": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 128
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "route_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "record_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "title": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "route_id",
+            "record_id",
+            "title"
+          ]
+        }
+      },
+      {
+        "id": "export_reading",
+        "title": "导出专业阅读本",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16777216
+            },
+            "max_bytes": {
+              "type": "integer",
+              "minimum": 256,
+              "maximum": 65536
+            }
+          },
+          "required": [
+            "object_id"
+          ]
+        }
+      },
+      {
+        "id": "export_review",
+        "title": "导出完整审核本",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "detail": {
+              "enum": [
+                "full",
+                "summary"
+              ]
+            },
+            "offset": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 16777216
+            },
+            "max_bytes": {
+              "type": "integer",
+              "minimum": 256,
+              "maximum": 65536
+            }
+          },
+          "required": [
+            "object_id"
+          ]
+        }
+      }
+    ],
+    "skills": [
+      {
+        "id": "quest-studio",
+        "name": "hetu-quest-studio",
+        "description": "在河图使用游戏任务工坊准备专业工程、审阅、返工和完整交付时使用。",
+        "entry": "skills/hetu-quest-studio/SKILL.md"
+      }
+    ]
+  }
+}
